@@ -1,6 +1,10 @@
-package com.company.payroll;
+package com.company.payroll.controller;
 
 
+import com.company.payroll.assembler.EmployeeModelAssembler;
+import com.company.payroll.exceptionhandling.exception.EmployeeNotFoundException;
+import com.company.payroll.repository.EmployeeRepository;
+import com.company.payroll.domain.Employee;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
@@ -8,14 +12,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController //indicates that the data returned by each method will be written straight into the response body instead of rendering a template.
-class EmployeeController {
+public class EmployeeController {
     private final EmployeeRepository repository; // is injected by constructor into the controller.
     private final EmployeeModelAssembler assembler;
 
@@ -36,7 +39,7 @@ class EmployeeController {
     }
 
     @GetMapping("/employees")
-    CollectionModel<EntityModel<Employee>> all() { //another Spring HATEOAS container
+    public CollectionModel<EntityModel<Employee>> all() { //another Spring HATEOAS container
         //it’s aimed at encapsulating collections (it should encapsulate collections of employee resources.) of resources—instead of a single resource entity, like EntityModel<> from earlier.
         List<EntityModel<Employee>> employees = repository.findAll().stream()
                 .map(assembler::toModel)
@@ -47,7 +50,7 @@ class EmployeeController {
 
 
     @GetMapping("/employees/{id}")
-    EntityModel<Employee> one(@PathVariable Long id) { // single-item employee method
+    public EntityModel<Employee> one(@PathVariable Long id) { // single-item employee method
         Employee employee = repository.findById(id)
                 .orElseThrow(() -> new EmployeeNotFoundException(id));
         return assembler.toModel(employee);
@@ -56,7 +59,7 @@ class EmployeeController {
 
     @PutMapping("/employees/{id}")
 //PUT //replace employee by id
-    ResponseEntity<?> newEmployee(@RequestBody Employee newEmployee, @PathVariable Long id) {
+    public ResponseEntity<?> newEmployee(@RequestBody Employee newEmployee, @PathVariable Long id) {
         Employee updatedEmployee = repository.findById(id) //
                 .map(employee -> {
                     employee.setName(newEmployee.getName());
@@ -74,7 +77,7 @@ class EmployeeController {
 
     @DeleteMapping("/employees/{id}")
         //DELETE
-    ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
+    public ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
         repository.deleteById(id);
         return ResponseEntity.noContent().build(); //This returns an HTTP 204 No Content response.
     }

@@ -1,5 +1,8 @@
-package com.company.payroll;
+package com.company.payroll.assembler;
 
+import com.company.payroll.Status;
+import com.company.payroll.controller.OrderController;
+import com.company.payroll.domain.Order;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;

@@ -1,7 +1,7 @@
-package com.company.payroll;
+package com.company.payroll.domain;
 
 
-import jdk.net.SocketFlow;
+import com.company.payroll.Status;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

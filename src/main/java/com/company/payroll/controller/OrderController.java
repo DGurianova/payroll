@@ -1,6 +1,10 @@
-package com.company.payroll;
+package com.company.payroll.controller;
 
-import org.hibernate.EntityMode;
+import com.company.payroll.assembler.OrderModelAssembler;
+import com.company.payroll.Status;
+import com.company.payroll.domain.Order;
+import com.company.payroll.exceptionhandling.exception.OrderNotFoundException;
+import com.company.payroll.repository.OrderRepository;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.MediaTypes;
@@ -27,7 +31,7 @@ public class OrderController {
     }
 
     @GetMapping("/orders")
-    CollectionModel<EntityModel<Order>> all() {
+    public CollectionModel<EntityModel<Order>> all() {
         List<EntityModel<Order>> orders = orderRepository.findAll().stream()
                 .map(assembler::toModel)
                 .collect(Collectors.toList());
@@ -37,7 +41,7 @@ public class OrderController {
     }
 
     @GetMapping("/orders/{id}")
-    EntityModel<Order> one(@PathVariable Long id) {
+    public EntityModel<Order> one(@PathVariable Long id) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new OrderNotFoundException(id));
 
@@ -54,7 +58,7 @@ public class OrderController {
     }
 
     @DeleteMapping("/orders/{id}/cancel")
-    ResponseEntity<?> cancel(@PathVariable Long id) {
+    public ResponseEntity<?> cancel(@PathVariable Long id) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new OrderNotFoundException(id));
 
@@ -73,7 +77,7 @@ public class OrderController {
     }
 
     @PutMapping("/orders/{id}/complete")
-    ResponseEntity<?> complete(@PathVariable Long id) {
+    public ResponseEntity<?> complete(@PathVariable Long id) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new OrderNotFoundException(id));
 

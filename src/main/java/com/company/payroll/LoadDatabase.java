@@ -1,5 +1,9 @@
 package com.company.payroll;
 
+import com.company.payroll.domain.Employee;
+import com.company.payroll.domain.Order;
+import com.company.payroll.repository.EmployeeRepository;
+import com.company.payroll.repository.OrderRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;

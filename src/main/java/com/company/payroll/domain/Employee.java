@@ -1,4 +1,4 @@
-package com.company.payroll;
+package com.company.payroll.domain;
 
 
 import javax.persistence.Entity;
@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import java.util.Objects;
 
 @Entity //is a JPA annotation to make this object ready for storage in a JPA-based data store.
-class Employee {
+public class Employee {
     private @Id
     @GeneratedValue
     Long id; //is marked with more JPA annotations to indicate it’s the primary key and automatically populated by the JPA provider
